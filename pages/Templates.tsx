@@ -225,7 +225,7 @@ export const Templates = () => {
 
                 {/* Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <h3 className="text-white font-bold text-sm md:text-base leading-tight mb-1 line-clamp-2 drop-shadow-md font-display uppercase tracking-wide">{template.title}</h3>
+                  <h3 className="text-white font-bold text-sm md:text-base leading-tight mb-1 line-clamp-2 drop-shadow-md uppercase tracking-wide">{template.title}</h3>
                   <p className="text-slate-300 text-xs drop-shadow-sm">{template.category}</p>
                 </div>
               </div>
@@ -260,8 +260,8 @@ export const Templates = () => {
               {/* Header */}
               <div className="p-6 pb-2 shrink-0 flex justify-between items-start">
                  <div>
-                   <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 block font-display">Selected Template</span>
-                   <h2 className="text-xl font-bold text-white font-display uppercase tracking-wide">{selectedTemplate.title}</h2>
+                   <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1 block">Selected Template</span>
+                   <h2 className="text-xl font-bold text-white uppercase tracking-wide">{selectedTemplate.title}</h2>
                  </div>
                  <button onClick={closeModal} className="p-2 bg-white/5 rounded-full hover:bg-white/10 text-white transition-colors"><X size={20} /></button>
               </div>
@@ -298,20 +298,20 @@ export const Templates = () => {
                     <div className="grid grid-cols-2 gap-3">
                         <button 
                           onClick={handleShare}
-                          className="col-span-1 py-3 bg-white text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-slate-200 transition-colors font-display uppercase tracking-wide text-xs"
+                          className="col-span-1 py-3 bg-white text-black font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-slate-200 transition-colors uppercase tracking-wide text-xs"
                         >
                           <Instagram size={16} /> Story / Share
                         </button>
                         <a 
                           href={generatedImage} 
                           download={`ceeplex-${selectedTemplate.id}.png`}
-                          className="col-span-1 py-3 bg-white/10 text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white/20 transition-colors font-display uppercase tracking-wide text-xs border border-white/10"
+                          className="col-span-1 py-3 bg-white/10 text-white font-bold rounded-xl flex items-center justify-center gap-2 hover:bg-white/20 transition-colors uppercase tracking-wide text-xs border border-white/10"
                         >
                           <Download size={16} /> Save
                         </a>
                         <button 
                             onClick={() => { setGeneratedImage(null); }}
-                            className="col-span-2 py-3 bg-transparent text-slate-400 font-medium rounded-xl hover:text-white transition-colors font-display uppercase tracking-wide text-xs"
+                            className="col-span-2 py-3 bg-transparent text-slate-400 font-medium rounded-xl hover:text-white transition-colors uppercase tracking-wide text-xs"
                         >
                             Try Another Photo
                         </button>
@@ -320,7 +320,7 @@ export const Templates = () => {
                     <button 
                       onClick={handleGenerate}
                       disabled={!userImage || isGenerating}
-                      className="w-full py-4 bg-white text-black font-bold rounded-xl hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 font-display uppercase tracking-wide text-sm"
+                      className="w-full py-4 bg-white text-black font-bold rounded-xl hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 uppercase tracking-wide text-sm"
                     >
                       {isGenerating ? 'Creating Magic...' : 'Generate Art'}
                       {!isGenerating && <Sparkles size={18} />}

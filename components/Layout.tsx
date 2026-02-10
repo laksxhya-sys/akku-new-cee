@@ -145,7 +145,7 @@ const MobileNavItem = ({ to, icon, label, active }: { to: string, icon: React.Re
     <div className="flex items-center justify-center whitespace-nowrap gap-2">
         {icon}
         {active && (
-            <span className="text-sm font-bold animate-fade-in whitespace-nowrap font-display uppercase tracking-wider">
+            <span className="text-sm font-bold animate-fade-in whitespace-nowrap uppercase tracking-wider">
                 {label}
             </span>
         )}

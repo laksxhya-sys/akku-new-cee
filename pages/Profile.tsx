@@ -61,7 +61,7 @@ export const Profile = () => {
            </div>
         </div>
         <div className="text-center md:text-left flex-1">
-           <h1 className="text-3xl font-bold text-white mb-2 font-display uppercase tracking-wide">{user.name}</h1>
+           <h1 className="text-3xl font-bold text-white mb-2 uppercase tracking-wide">{user.name}</h1>
            <p className="text-slate-400 flex items-center justify-center md:justify-start gap-2">
              <span className={`w-2 h-2 rounded-full ${user.role === UserRole.ADMIN ? 'bg-red-500' : 'bg-green-500'}`}></span>
              {user.email}
@@ -74,7 +74,7 @@ export const Profile = () => {
         </div>
         <div className="flex gap-8 text-center">
             <div>
-               <p className="text-3xl font-bold text-white font-display">{images.length}</p>
+               <p className="text-3xl font-bold text-white">{images.length}</p>
                <p className="text-xs uppercase tracking-widest text-slate-500 mt-1">Creations</p>
             </div>
         </div>
@@ -86,7 +86,7 @@ export const Profile = () => {
           <div className="lg:col-span-2 space-y-8">
               <div className="flex items-center gap-4">
                  <div className="p-2 bg-white/5 rounded-lg"><ImageIcon size={20} className="text-white" /></div>
-                 <h2 className="text-xl font-bold text-white font-display uppercase tracking-wide">Your Creations</h2>
+                 <h2 className="text-xl font-bold text-white uppercase tracking-wide">Your Creations</h2>
               </div>
 
               {loading ? (
@@ -128,7 +128,7 @@ export const Profile = () => {
               <div className="bg-black/60 backdrop-blur-md border border-white/5 rounded-2xl p-6">
                   <div className="flex items-center gap-3 mb-6">
                       <Settings size={20} className="text-slate-400" />
-                      <h3 className="font-bold text-white font-display uppercase tracking-wide">Settings</h3>
+                      <h3 className="font-bold text-white uppercase tracking-wide">Settings</h3>
                   </div>
                   
                   <div className="space-y-4">
@@ -151,11 +151,11 @@ export const Profile = () => {
 
               {/* App Info / Creator Info */}
               <div className="bg-black/40 border border-white/5 rounded-2xl p-6 text-center backdrop-blur-md">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-4 font-display">Trainer & Creator</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-4">Trainer & Creator</p>
                   <div className="w-20 h-20 mx-auto mb-3 flex items-center justify-center">
                       <img src="https://iili.io/fpcnLLQ.png" className="w-16 h-16 object-contain drop-shadow-md" alt="Logo"/>
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-1 font-display tracking-wide">Lakshya Baradiya</h3>
+                  <h3 className="text-lg font-bold text-white mb-1 tracking-wide">Lakshya Baradiya</h3>
                   <p className="text-xs text-slate-500 mb-4 uppercase tracking-wider">Lead Developer & AI Trainer</p>
                   
                   <div className="space-y-2 text-sm text-slate-400">

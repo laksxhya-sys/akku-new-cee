@@ -420,11 +420,11 @@ export const Chat = () => {
             <div className="bg-black/80 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 w-full max-w-sm relative shadow-2xl animate-slide-up" onClick={e => e.stopPropagation()}>
                 <button onClick={() => setShowCreatorInfo(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white"><X size={20}/></button>
                 <div className="text-center">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-4 font-display">Trainer & Creator</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400 mb-4">Trainer & Creator</p>
                     <div className="w-20 h-20 mx-auto mb-4 flex items-center justify-center">
                         <img src="https://iili.io/fpcnLLQ.png" className="w-16 h-16 object-contain drop-shadow-lg" alt="Logo"/>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2 font-display">Lakshya Baradiya</h3>
+                    <h3 className="text-xl font-bold text-white mb-2 tracking-wide">Lakshya Baradiya</h3>
                     
                     <div className="space-y-3 mt-6 text-sm text-slate-300">
                       <a href="https://instagram.com/__laksxhya__" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 hover:text-white transition-colors p-2 bg-white/5 rounded-lg border border-white/5">
@@ -481,12 +481,12 @@ export const Chat = () => {
       {/* Sidebar - Heavy Glass Effect */}
       <div className={`fixed md:relative inset-y-0 left-0 z-40 bg-black/60 backdrop-blur-3xl border-r border-white/10 flex flex-col transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-[280px] translate-x-0' : '-translate-x-full md:translate-x-0 md:w-0 md:border-none md:overflow-hidden'}`} style={{top: '0px', paddingTop: '80px'}}>
         <div className="p-4 space-y-4">
-            <button onClick={createNewChat} className="w-full flex items-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all text-sm font-medium shadow-sm font-display tracking-wide uppercase text-xs"><Plus size={16} /> New Chat</button>
+            <button onClick={createNewChat} className="w-full flex items-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all text-sm font-medium shadow-sm tracking-wide uppercase text-xs"><Plus size={16} /> New Chat</button>
             {(isGuest || isOffline) && (<div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-black/60 to-black/40 border border-orange-900/30 p-4"><div className="flex items-start gap-3 relative z-10">{isGuest ? <Database size={16} className="text-orange-400 mt-1" /> : <WifiOff size={16} className="text-orange-400 mt-1" />}<div><h4 className="text-sm font-bold text-orange-200">{isGuest ? 'Guest Mode' : 'Local Mode'}</h4><p className="text-[10px] text-orange-400/80 mt-1 leading-tight">{isGuest ? 'Chats saved to device.' : 'Database unavailable. Using local storage.'}</p></div></div></div>)}
             {dbError && !isGuest && <div className="px-4 py-2 bg-red-500/10 border border-red-500/20 rounded-lg text-[10px] text-red-300">{dbError}</div>}
         </div>
         <div className="flex-1 overflow-y-auto px-4 pb-4">
-          <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2 mt-2 font-display">Recent</div>
+          <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2 mt-2">Recent</div>
           <div className="space-y-1">
             {chats.map(chat => (
               <div key={chat.id} onClick={() => { setCurrentChatId(chat.id); if (window.innerWidth < 768) setIsSidebarOpen(false); }} className={`group relative flex items-center gap-3 px-3 py-3 rounded-lg cursor-pointer transition-colors text-sm ${currentChatId === chat.id ? 'bg-white/10 text-white border border-white/10' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'}`}>
@@ -521,7 +521,7 @@ export const Chat = () => {
                             <SuggestionCard text="Generate futuristic art" onClick={() => { setIsImageMode(true); setInput("Generate image of a futuristic neon city"); }} />
                         </div>
                         
-                        <div className="mt-12 text-[10px] text-slate-500 font-display uppercase tracking-widest">
+                        <div className="mt-12 text-[10px] text-slate-500 uppercase tracking-widest">
                              Trainer & Creator: Lakshya Baradiya
                         </div>
                     </div>
@@ -598,7 +598,11 @@ export const Chat = () => {
             
             {/* Right: 3 Dots (Creator Info) */}
             <div className="flex gap-1">
-                <button onClick={() => setShowCreatorInfo(true)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                <button 
+                  onClick={() => setShowCreatorInfo(true)} 
+                  className="p-3 hover:bg-white/10 rounded-full transition-colors relative z-50 active:bg-white/20 touch-manipulation"
+                  aria-label="More Info"
+                >
                     <MoreVertical className="text-slate-400" size={24} />
                 </button>
             </div>
@@ -609,10 +613,10 @@ export const Chat = () => {
             <div className="fixed inset-0 z-[70] flex pointer-events-auto">
                 <div className="w-[80%] max-w-[300px] h-full bg-black/90 backdrop-blur-2xl border-r border-white/10 p-4 flex flex-col shadow-2xl animate-slide-right">
                     <div className="flex justify-between items-center mb-6">
-                        <h2 className="font-bold text-lg font-display uppercase tracking-wider">Chat History</h2>
+                        <h2 className="font-bold text-lg uppercase tracking-wider">Chat History</h2>
                         <button onClick={() => setIsSidebarOpen(false)}><X className="text-slate-400" size={24}/></button>
                     </div>
-                    <button onClick={createNewChat} className="w-full flex items-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all text-sm font-medium shadow-sm mb-4 font-display uppercase text-xs tracking-wide">
+                    <button onClick={createNewChat} className="w-full flex items-center gap-2 px-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-xl transition-all text-sm font-medium shadow-sm mb-4 uppercase text-xs tracking-wide">
                         <Plus size={16} /> New Chat
                     </button>
                     <div className="flex-1 overflow-y-auto space-y-2">
@@ -658,7 +662,7 @@ export const Chat = () => {
             )}
 
             <div className="flex justify-center">
-                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em] bg-black/60 backdrop-blur-xl px-3 py-1 rounded-full border border-white/5 font-display">Today</span>
+                <span className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em] bg-black/60 backdrop-blur-xl px-3 py-1 rounded-full border border-white/5">Today</span>
             </div>
 
             {messages.length === 0 && (
@@ -670,7 +674,7 @@ export const Chat = () => {
                     <p className="text-sm text-slate-300 max-w-xs mb-8 shadow-black drop-shadow-sm">
                         Your personal AI creative assistant. Start by typing a message below.
                     </p>
-                    <div className="text-[10px] text-slate-500 uppercase tracking-widest font-display">
+                    <div className="text-[10px] text-slate-500 uppercase tracking-widest">
                         Trainer: Lakshya Baradiya
                     </div>
                 </div>

@@ -27,12 +27,12 @@ export const Home = () => {
 
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
-              <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-300 font-display">AI-Powered Creative Engine</span>
+              <span className="text-xs font-bold tracking-[0.2em] uppercase text-slate-300">AI-Powered Creative Engine</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter text-white leading-[1.1] font-display drop-shadow-xl">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter text-white leading-[1.1] drop-shadow-xl">
               Welcome to <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">Ceeplex</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 font-display">Ceeplex</span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-md">
@@ -41,7 +41,7 @@ export const Home = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-              <Link to="/chat" className="group relative px-8 py-4 bg-white text-black font-bold text-lg rounded-2xl overflow-hidden shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_-10px_rgba(255,255,255,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 w-full sm:w-auto font-display tracking-wide">
+              <Link to="/chat" className="group relative px-8 py-4 bg-white text-black font-bold text-lg rounded-2xl overflow-hidden shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0_0_50px_-10px_rgba(255,255,255,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 w-full sm:w-auto tracking-wide">
                 <div className="absolute inset-0 bg-slate-200 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                 <div className="relative flex items-center justify-center gap-2">
                   <Sparkles size={20} className="fill-current" />
@@ -49,7 +49,7 @@ export const Home = () => {
                 </div>
               </Link>
               
-              <Link to="/templates" className="group px-8 py-4 glass-pill text-white font-bold text-lg rounded-2xl border border-white/10 hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-300 w-full sm:w-auto flex items-center justify-center gap-2 font-display tracking-wide">
+              <Link to="/templates" className="group px-8 py-4 glass-pill text-white font-bold text-lg rounded-2xl border border-white/10 hover:bg-white/10 hover:scale-105 active:scale-95 transition-all duration-300 w-full sm:w-auto flex items-center justify-center gap-2 tracking-wide">
                  <Compass size={20} />
                  TEMPLATES
               </Link>
@@ -61,7 +61,7 @@ export const Home = () => {
         <div className="w-full mb-16">
           <div className="flex items-center gap-4 mb-8 px-4">
              <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-1"></div>
-             <span className="text-sm font-bold uppercase tracking-[0.2em] text-slate-400 shadow-black drop-shadow-md font-display">Powerful Tools</span>
+             <span className="text-sm font-bold uppercase tracking-[0.2em] text-slate-400 shadow-black drop-shadow-md">Powerful Tools</span>
              <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent flex-1"></div>
           </div>
 
@@ -92,8 +92,8 @@ export const Home = () => {
 
         {/* Creator Info Footer */}
         <div className="w-full max-w-3xl mx-auto glass rounded-2xl p-8 border border-white/10 text-center bg-black/40">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-2 font-display">Trainer & Creator</p>
-            <h2 className="text-2xl font-bold text-white mb-6 font-display tracking-wide">Lakshya Baradiya</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 mb-2">Trainer & Creator</p>
+            <h2 className="text-2xl font-bold text-white mb-6 tracking-wide">Lakshya Baradiya</h2>
             
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-slate-300">
                 <a href="https://instagram.com/__laksxhya__" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors">
@@ -139,7 +139,7 @@ const ToolCard = ({ to, title, description, icon, delay }: { to: string, title: 
         {icon}
       </div>
       
-      <h3 className="text-xl font-bold text-white mb-3 group-hover:text-slate-200 transition-colors font-display tracking-wide">{title}</h3>
+      <h3 className="text-xl font-bold text-white mb-3 group-hover:text-slate-200 transition-colors tracking-wide">{title}</h3>
       <p className="text-slate-400 text-sm leading-relaxed mb-6">
         {description}
       </p>
