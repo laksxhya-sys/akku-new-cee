@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Home, MessageSquare, LayoutTemplate, LogOut, Shield, User as UserIcon } from 'lucide-react';
+import { Home, MessageSquare, LayoutTemplate, LogOut, Shield, User as UserIcon, LogIn } from 'lucide-react';
 
 export const Layout = ({ children }: { children?: React.ReactNode }) => {
   const { user, logout, isAdmin } = useAuth();
@@ -90,19 +90,28 @@ export const Layout = ({ children }: { children?: React.ReactNode }) => {
             active={isActive('/templates')} 
           />
           
-          {isAdmin ? (
-             <MobileNavItem 
-                to="/admin" 
-                icon={<Shield size={22} />} 
-                label="Admin"
-                active={isActive('/admin')} 
-             />
+          {user ? (
+             isAdmin ? (
+               <MobileNavItem 
+                  to="/admin" 
+                  icon={<Shield size={22} />} 
+                  label="Admin"
+                  active={isActive('/admin')} 
+               />
+             ) : (
+               <MobileNavItem 
+                  to="/profile" 
+                  icon={<UserIcon size={22} />} 
+                  label="Profile"
+                  active={isActive('/profile')} 
+               />
+             )
           ) : (
              <MobileNavItem 
-                to="/profile" 
-                icon={<UserIcon size={22} />} 
-                label="Profile"
-                active={isActive('/profile')} 
+                to="/login" 
+                icon={<LogIn size={22} />} 
+                label="Login"
+                active={isActive('/login')} 
              />
           )}
           

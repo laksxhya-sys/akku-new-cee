@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Mail, AlertCircle, HelpCircle, User as UserIcon } from 'lucide-react';
-import { auth, db } from '../services/firebase';
+import { Lock, Mail, AlertCircle, User as UserIcon } from 'lucide-react';
+import firebase, { auth, db } from '../services/firebase';
 import { useAuth } from '../context/AuthContext';
-import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  GoogleAuthProvider, 
-  signInWithPopup,
-  UserCredential
-} from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 
 export const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -35,16 +27,16 @@ export const Login = () => {
     return err.message || "Authentication failed.";
   };
 
-  const syncUserToFirestore = async (userCred: UserCredential) => {
-    if (!userCred.user.email) return;
-    const userRef = doc(db, 'users', userCred.user.uid);
+  const syncUserToFirestore = async (userCred: firebase.auth.UserCredential) => {
+    if (!userCred.user?.email) return;
+    const userRef = db.collection('users').doc(userCred.user.uid);
     try {
-        const userSnap = await getDoc(userRef);
-        if (!userSnap.exists()) {
-            await setDoc(userRef, {
+        const userSnap = await userRef.get();
+        if (!userSnap.exists) {
+            await userRef.set({
                 email: userCred.user.email,
                 name: userCred.user.displayName || userCred.user.email.split('@')[0],
-                createdAt: serverTimestamp(),
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 role: 'USER'
             });
         }
@@ -81,12 +73,12 @@ export const Login = () => {
     try {
       let userCred;
       if (isLogin) {
-        userCred = await signInWithEmailAndPassword(auth, email, password);
+        userCred = await auth.signInWithEmailAndPassword(email, password);
       } else {
-        userCred = await createUserWithEmailAndPassword(auth, email, password);
+        userCred = await auth.createUserWithEmailAndPassword(email, password);
       }
       await syncUserToFirestore(userCred);
-      checkAdminRedirect(userCred.user.email);
+      checkAdminRedirect(userCred.user?.email || null);
     } catch (err: any) {
       handleAuthError(err);
     } finally {
@@ -98,10 +90,10 @@ export const Login = () => {
     setError('');
     setLoading(true);
     try {
-      const provider = new GoogleAuthProvider();
-      const userCred = await signInWithPopup(auth, provider);
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const userCred = await auth.signInWithPopup(provider);
       await syncUserToFirestore(userCred);
-      checkAdminRedirect(userCred.user.email);
+      checkAdminRedirect(userCred.user?.email || null);
     } catch (err: any) {
       handleAuthError(err);
     } finally {

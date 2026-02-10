@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, UserRole } from '../types';
 import { auth, db } from '../services/firebase';
-import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
-import { doc, updateDoc, serverTimestamp, setDoc } from 'firebase/firestore';
 
 interface AuthContextType {
   user: User | null;
@@ -25,9 +23,8 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
     const updateHeartbeat = async () => {
       try {
-        const userRef = doc(db, 'users', auth.currentUser?.uid || 'unknown');
-        // We use Date.now() for easier client-side comparison in Admin panel
-        await updateDoc(userRef, { lastActive: Date.now() });
+        const uid = auth.currentUser?.uid || 'unknown';
+        await db.collection('users').doc(uid).update({ lastActive: Date.now() });
       } catch (e) {
         // Silent fail (might be permission issue or guest)
       }
@@ -40,7 +37,7 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
   }, [user?.email]);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser && firebaseUser.email) {
         let role = UserRole.USER;
         // Hardcoded Admin Email for security
@@ -57,7 +54,7 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
 
         // Sync basic info on login
         try {
-            await setDoc(doc(db, 'users', firebaseUser.uid), {
+            await db.collection('users').doc(firebaseUser.uid).set({
                 email: userData.email,
                 name: userData.name,
                 role: userData.role,
@@ -79,7 +76,7 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
       if (user?.email === 'guest@ceeplex.dev') {
         setUser(null);
       } else {
-        await firebaseSignOut(auth);
+        await auth.signOut();
       }
     } catch (error) {
       console.error("Error signing out", error);

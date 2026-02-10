@@ -1,6 +1,5 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { db } from './firebase';
-import { collection, addDoc } from 'firebase/firestore';
 
 // Models
 const TEXT_MODEL = "gemini-3-flash-preview"; 
@@ -13,7 +12,7 @@ let ai: GoogleGenAI | null = null;
 
 const logErrorToDB = async (message: string) => {
     try {
-        await addDoc(collection(db, 'system_logs'), {
+        await db.collection('system_logs').add({
             type: 'ERROR',
             message: message,
             timestamp: Date.now(),

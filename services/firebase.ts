@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getAnalytics, isSupported } from "firebase/analytics";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+import "firebase/compat/analytics";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -15,18 +15,16 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+} else {
+    firebase.app(); // if already initialized, use that one
+}
 
-// Initialize Analytics conditionally to avoid errors in environments that don't support it
-let analytics: any = null;
-isSupported().then((supported) => {
-  if (supported) {
-    analytics = getAnalytics(app);
-  }
-}).catch((err) => {
-  console.warn("Firebase Analytics not supported or failed to initialize", err);
-});
+export const auth = firebase.auth();
+export const db = firebase.firestore();
 
-export { analytics };
+// Initialize Analytics conditionally
+export const analytics = typeof window !== 'undefined' && firebase.analytics ? firebase.analytics() : null;
+
+export default firebase;

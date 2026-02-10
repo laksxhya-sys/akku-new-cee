@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { GeneratedImage, UserRole } from '../types';
-import { Image as ImageIcon, Calendar, Clock, Download, Sparkles, LogOut, Settings, User as UserIcon, Shield, Instagram, Phone, Mail } from 'lucide-react';
+import { Image as ImageIcon, Calendar, Download, Sparkles, LogOut, Settings, User as UserIcon, Shield, Instagram, Phone, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Profile = () => {
@@ -20,12 +19,10 @@ export const Profile = () => {
 
     const fetchImages = async () => {
       try {
-        const q = query(
-          collection(db, 'generated_images'),
-          where('userEmail', '==', user.email)
-        );
+        const snapshot = await db.collection('generated_images')
+            .where('userEmail', '==', user.email)
+            .get();
 
-        const snapshot = await getDocs(q);
         const fetchedImages = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()

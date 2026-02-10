@@ -24,7 +24,9 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      {/* Home is now public, wrapped in Layout but not ProtectedRoute */}
+      <Route path="/" element={<Layout><Home /></Layout>} />
+      
       <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
       <Route path="/templates" element={<ProtectedRoute><Templates /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Navigate } from 'react-router-dom';
-import { Users, MessageSquare, Image as ImageIcon, Settings, Plus, Trash2, RefreshCw, AlertTriangle, Eye, Activity, Link as LinkIcon, Edit2, X } from 'lucide-react';
-import { collection, getDocs, addDoc, deleteDoc, updateDoc, doc, query, orderBy, limit } from 'firebase/firestore';
+import { Users, Image as ImageIcon, Plus, Trash2, RefreshCw, AlertTriangle, Activity, Link as LinkIcon, Edit2, X } from 'lucide-react';
 import { db } from '../services/firebase';
 import { Template, SystemLog, User } from '../types';
 
@@ -29,20 +28,20 @@ export const Admin = () => {
       setLoading(true);
       try {
           // 1. Fetch Users & Calculate Live (Active < 5 mins ago)
-          const usersSnap = await getDocs(collection(db, 'users'));
+          const usersSnap = await db.collection('users').get();
           const users = usersSnap.docs.map(d => d.data() as User);
           const now = Date.now();
           const live = users.filter(u => u.lastActive && (now - u.lastActive) < 300000).length; // 5 mins
 
           // 2. Fetch Chats
-          const chatsSnap = await getDocs(collection(db, 'chats'));
+          const chatsSnap = await db.collection('chats').get();
           const chats = chatsSnap.docs.map(d => ({id: d.id, ...d.data()}));
 
           // 3. Fetch Images
-          const imagesSnap = await getDocs(collection(db, 'generated_images'));
+          const imagesSnap = await db.collection('generated_images').get();
 
           // 4. Fetch Logs (Errors)
-          const logsSnap = await getDocs(query(collection(db, 'system_logs'), orderBy('timestamp', 'desc'), limit(100)));
+          const logsSnap = await db.collection('system_logs').orderBy('timestamp', 'desc').limit(100).get();
           const fetchedLogs = logsSnap.docs.map(d => ({id: d.id, ...d.data()})) as SystemLog[];
           
           // Calculate errors today
@@ -50,7 +49,7 @@ export const Admin = () => {
           const errorsToday = fetchedLogs.filter(l => l.type === 'ERROR' && l.timestamp > startOfDay.getTime()).length;
 
           // 5. Fetch Templates
-          const tplSnap = await getDocs(collection(db, 'templates'));
+          const tplSnap = await db.collection('templates').get();
           const tpls = tplSnap.docs.map(d => ({id: d.id, ...d.data()})) as Template[];
 
           setStats({
@@ -75,13 +74,13 @@ export const Admin = () => {
       try {
           if (editingId) {
               // Update existing
-              await updateDoc(doc(db, 'templates', editingId), {
+              await db.collection('templates').doc(editingId).update({
                   ...templateForm
               });
               alert("Template Updated Successfully!");
           } else {
               // Create new
-              await addDoc(collection(db, 'templates'), {
+              await db.collection('templates').add({
                   ...templateForm,
                   likes: 0,
                   createdAt: Date.now()
@@ -113,7 +112,7 @@ export const Admin = () => {
   const handleDeleteTemplate = async (id: string) => {
       if(!window.confirm("Are you sure you want to delete this template? This action cannot be undone.")) return;
       try {
-        await deleteDoc(doc(db, 'templates', id));
+        await db.collection('templates').doc(id).delete();
         if (editingId === id) {
             setEditingId(null);
             setTemplateForm({ title: '', description: '', category: '', imageUrl: '', promptTemplate: '' });
@@ -163,7 +162,7 @@ export const Admin = () => {
                     {logs.slice(0,5).map(log => (
                         <div key={log.id} className="text-xs flex gap-4 p-2 bg-black/20 rounded">
                             <span className={log.type === 'ERROR' ? 'text-red-400' : 'text-blue-400'}>{log.type}</span>
-                            <span className="text-slate-500">{new Date(log.timestamp).toLocaleTimeString()}</span>
+                            <span className="text-slate-500">{new Date(log.timestamp).toLocaleTimeString()}]</span>
                             <span className="text-slate-300 truncate flex-1">{log.message}</span>
                         </div>
                     ))}

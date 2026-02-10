@@ -3,7 +3,6 @@ import { Search, Heart, Sparkles, X, Download, Share2, Bell, Instagram } from 'l
 import { generateImageFromTemplate } from '../services/geminiService';
 import { compressImage } from '../services/imageUtils';
 import { Template } from '../types';
-import { collection, onSnapshot, query, orderBy, addDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import { useAuth } from '../context/AuthContext';
 
@@ -31,15 +30,15 @@ export const Templates = () => {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch Templates from Real DB
+  // Fetch Templates from Real DB (v8 Syntax)
   useEffect(() => {
-    const q = query(collection(db, 'templates')); 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-        const fetched = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Template));
-        fetched.sort((a,b) => b.likes - a.likes); // Default sort
-        setTemplates(fetched);
-        setIsLoading(false);
-    });
+    const unsubscribe = db.collection('templates')
+        .onSnapshot((snapshot) => {
+            const fetched = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Template));
+            fetched.sort((a,b) => b.likes - a.likes); // Default sort
+            setTemplates(fetched);
+            setIsLoading(false);
+        });
     return () => unsubscribe();
   }, []);
 
@@ -88,7 +87,7 @@ export const Templates = () => {
                   imageToSave = await compressImage(result);
               }
 
-              await addDoc(collection(db, 'generated_images'), {
+              await db.collection('generated_images').add({
                   userEmail: user.email,
                   prompt: `Template: ${selectedTemplate.title}`,
                   imageUrl: imageToSave,
@@ -139,8 +138,11 @@ export const Templates = () => {
   };
 
   return (
-    <div className="min-h-screen bg-transparent pb-20">
+    <div className="min-h-screen bg-transparent pb-20 relative">
       
+      {/* Background Blur Overlay for Templates Only */}
+      <div className="fixed inset-0 bg-black/40 backdrop-blur-2xl z-[-1]" />
+
       {/* Header Area */}
       <div className="pt-6 px-6 pb-4 bg-transparent sticky top-0 z-30">
         <div className="flex items-center justify-between mb-6">
